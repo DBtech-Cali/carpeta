@@ -13,6 +13,8 @@ Toda la programación de fechas de la aplicación debe salir de estas reglas.
   - lo **programado**: fechas calculadas, inmóviles;
   - lo **cumplido**: si el documento de esa actividad ya está en la carpeta.
   El detalle de estados (verde / rojo) se definirá más adelante.
+- **Exigible desde el día siguiente.** Toda actividad con fecha cuenta como faltante
+  a partir del día siguiente a su fecha; el mismo día todavía se puede entregar.
 
 ## 2. Día ancla y fin de mes
 
@@ -81,16 +83,30 @@ Dos al mes, el día ancla y a mitad de mes (+15 días):
   (plan → 1er seguimiento, 1er → 2º, 2º → 3º, …), en la fecha
   **hito que abre el bloque + 45 días**.
 - **No usa** las reglas de 15 días ni mensuales de las otras áreas.
+- Se activa marcando **"Caso especial"** en la pestaña Nutrición. Si se marca a mitad
+  de un bloque, la primera atención es la de **ese mismo bloque** y sigue en los
+  siguientes.
+- Si se marca **después** de la fecha de atención del bloque (hito + 45 días), la
+  fecha límite de esa primera atención es el **seguimiento que cierra el bloque**.
 - El nutricionista **puede desactivarla** cuando el niño recupera o estabiliza su peso.
   Mientras no esté activa, no genera atenciones pendientes ni vencidas.
 
-## 7. Egreso
+## 7. Seguimiento de nivel de riesgo
+
+- **Todos** los niños lo tienen.
+- **Mensual** desde el plan de caso, en el día ancla (misma regla de fin de mes):
+  plan de caso + 1 mes, + 2 meses, + 3 meses… hasta el egreso.
+  Ejemplo: plan 15 mar → 15 abr, 15 may, 15 jun, 15 jul…
+- **Responsable** asignada por niño: Trabajo Social **o** Psicología. Se registra en
+  la pestaña de la responsable. No cambia en el tiempo.
+
+## 8. Egreso
 
 - Al egresar, la carpeta física con todo su material se traslada a otro lugar y el
   niño o niña sale de la aplicación.
 - Detalle por definir.
 
-## 8. Ejemplos completos
+## 9. Ejemplos completos
 
 ### Ingreso 7 de mayo de 2026 (Nutrición activada en el 1er seguimiento)
 
@@ -130,9 +146,8 @@ Dos al mes, el día ancla y a mitad de mes (+15 días):
 | Periodo 3 | 14 jul 2027 |
 | **3er seguimiento** | 30 ago 2027 |
 
-## 9. Pendientes por definir
+## 10. Pendientes por definir
 
-- Documentos que contiene cada carpeta.
 - Sistema de estados (verde: entregado y al día / rojo: pendiente).
 - Proceso de egreso.
 - Desde qué fecha deja de generar atenciones la desactivación de Nutrición.
