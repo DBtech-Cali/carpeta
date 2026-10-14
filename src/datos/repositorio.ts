@@ -27,6 +27,8 @@ export interface Repositorio {
   /** Retira o devuelve la carpeta física: guarda el movimiento y actualiza el préstamo del niño. */
   moverCarpeta(ninoId: string, tipo: Movimiento['tipo'], por: string): Promise<void>;
   agregarRevision(texto: string, por: string): Promise<void>;
+  /** Cierra el acceso general de este equipo (solo con Firebase). */
+  cerrarAcceso?(): Promise<void>;
 }
 
 export const ahoraISO = () => new Date().toISOString();

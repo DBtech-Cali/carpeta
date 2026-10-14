@@ -43,7 +43,7 @@ export class RepositorioFirebase implements Repositorio {
     return signInWithEmailAndPassword(this.auth, email, clave);
   }
 
-  salir() {
+  cerrarAcceso() {
     return signOut(this.auth);
   }
 

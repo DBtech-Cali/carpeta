@@ -26,6 +26,7 @@ export function Admin({ seccion, sesion }: { seccion: string | undefined; sesion
               <a key={id} href={`#/admin/${id}`} aria-current={actual === id ? 'page' : undefined}>{txt}</a>
             ))}
             <span className="sesion" style={{ marginTop: 8, alignSelf: 'flex-start' }}><Icono d={ICONOS.escudo} tam={16} />{sesion.nombre}</span>
+            <CerrarAcceso />
           </nav>
           <div className="admin__cuerpo">
             {actual === 'reportes' && <Reportes />}
@@ -36,6 +37,26 @@ export function Admin({ seccion, sesion }: { seccion: string | undefined; sesion
           </div>
         </div>
       </main>
+    </>
+  );
+}
+
+function CerrarAcceso() {
+  const { repo } = useApp();
+  const [confirmar, setConfirmar] = useState(false);
+  if (!repo.cerrarAcceso) return null;
+  return (
+    <>
+      <button type="button" className="btn btn--suave" style={{ marginTop: 8 }} onClick={() => setConfirmar(true)}>Cerrar acceso de este equipo</button>
+      {confirmar && (
+        <Dialogo titulo="Cerrar acceso de este equipo" onCerrar={() => setConfirmar(false)}>
+          <p style={{ margin: 0 }}>Para volver a usar la app en esta tablet o computador habrá que escribir de nuevo el correo y la contraseña de la aplicación.</p>
+          <div className="fila-wrap">
+            <button type="button" className="btn btn--peligro" onClick={() => repo.cerrarAcceso!()}>Cerrar acceso</button>
+            <button type="button" className="btn btn--suave" onClick={() => setConfirmar(false)}>Cancelar</button>
+          </div>
+        </Dialogo>
+      )}
     </>
   );
 }

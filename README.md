@@ -33,24 +33,16 @@ social, 3333 Nutrición, 4444 Pedagoga, 9999 Coordinador, 8888 Gestor de caso.
 
 ## Puesta en marcha con Firebase
 
-1. Crear una cuenta Gmail propia de la aplicación.
-2. Con esa cuenta, crear un proyecto en <https://console.firebase.google.com>
-   (plan gratuito Spark) y registrar una app web.
-3. Activar **Authentication → Correo/contraseña** y crear un usuario con el correo
-   de la aplicación. Es el acceso general de la tablet.
-4. Activar **Firestore Database**.
-5. Copiar `.env.example` a `.env.local` y completar los datos de la app web.
-6. Publicar las reglas y la app:
+Proyecto: `emj-archivo`. La configuración pública está en `.env.production`, así que
+`npm run build` genera la versión conectada a Firebase (y `npm run dev` sigue en modo
+demostración).
 
-   ```bash
-   npm install -g firebase-tools
-   firebase login
-   firebase use --add          # elegir el proyecto
-   npm run build
-   firebase deploy
-   ```
-
-7. Crear el primer administrador a mano en Firestore: colección `usuarios`, con los
-   campos `nombre`, `cargo: "coordinacion"`, `pin` (4 dígitos), `email` y
-   `activo: true`. Los demás usuarios se crean desde
-   **Administración → Usuarios y PIN**.
+1. **Authentication**: método Correo/contraseña activo y un usuario con el correo de la
+   aplicación. Es el acceso general de cada tablet o computador.
+2. **Firestore**: base de datos creada y reglas de `firestore.rules` publicadas.
+3. **Publicación automática**: el flujo `.github/workflows/publicar.yml` publica en
+   <https://emj-archivo.web.app> cada vez que cambia `main`. Requiere el secreto
+   `FIREBASE_SERVICE_ACCOUNT` en el repositorio (clave JSON de una cuenta de servicio
+   de Firebase).
+4. La primera vez que se abre la app, pide crear el **primer administrador**; los demás
+   usuarios se crean desde **Administración → Usuarios y PIN**.

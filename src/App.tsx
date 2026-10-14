@@ -10,6 +10,7 @@ import { Carpeta } from './ui/Carpeta';
 import { Brote, Ctx, ir, useRuta } from './ui/comunes';
 import { Lista } from './ui/Lista';
 import { Pin } from './ui/Pin';
+import { PrimerAdmin } from './ui/PrimerAdmin';
 
 /** Sesión de PIN: vale solo dentro de una carpeta (o del panel de administración). */
 interface Sesion {
@@ -54,7 +55,9 @@ export function App({ repo }: { repo: Repositorio }) {
   }
 
   let pantalla;
-  if (ruta[0] === 'nino') {
+  if (repo.modo === 'firebase' && ctx.datos.usuarios.length === 0) {
+    pantalla = <PrimerAdmin />;
+  } else if (ruta[0] === 'nino') {
     const nino = ctx.datos.ninos.find((n) => n.id === ruta[1] && n.activo);
     const tab = TABS.some((t) => t.id === ruta[2]) ? (ruta[2] as TabId) : undefined;
     if (!nino) pantalla = <Lista />;
