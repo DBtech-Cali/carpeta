@@ -89,6 +89,8 @@ Dos al mes, el día ancla y a mitad de mes (+15 días):
 - Si se marca **después** de la fecha de atención del bloque (hito + 45 días), la
   fecha límite de esa primera atención es el **seguimiento que cierra el bloque**.
 - El nutricionista **puede desactivarla** cuando el niño recupera o estabiliza su peso.
+  Al desactivarla **deja de exigirse todo** lo de Nutrición (incluidas atenciones ya
+  vencidas) hasta que se vuelva a activar.
   Mientras no esté activa, no genera atenciones pendientes ni vencidas.
 
 ## 7. Seguimiento de nivel de riesgo
@@ -149,5 +151,3 @@ Dos al mes, el día ancla y a mitad de mes (+15 días):
 
 ## 10. Pendientes por definir
 
-- Sistema de estados (verde: entregado y al día / rojo: pendiente).
-- Desde qué fecha deja de generar atenciones la desactivación de Nutrición.

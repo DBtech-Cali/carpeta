@@ -17,6 +17,11 @@ Las fechas de plan de caso, seguimientos y atenciones están en
 - Un ítem marcado pero **vencido** (por ejemplo, ADRES fuera de vigencia) cuenta
   como no cumplido.
 
+### Porcentaje general del niño
+
+- **Promedio de los porcentajes de las pestañas** que tienen ítems exigibles
+  (las pestañas "sin pendientes aún" no entran en el promedio).
+
 ### Comodines (solicitudes de documentos que dependen de terceros)
 
 Un comodín vigente hace que los documentos faltantes que cubre **cuenten como
@@ -191,6 +196,4 @@ Sin comodín.
 
 - Fecha de nacimiento del niño: si se registra, avisar cuando cumpla 7 años y falte
   la tarjeta de identidad.
-- Cálculo del porcentaje global de la carpeta.
-- Sistema de estados (verde / rojo) y vistas.
-- Desactivación de Nutrición: qué pasa con la atención del bloque en curso.
+- Vistas: ver `vista-general.md`.

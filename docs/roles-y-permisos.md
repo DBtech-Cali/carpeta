@@ -18,6 +18,14 @@ Complementa [`reglas-atencion.md`](reglas-atencion.md) y
   desmarcó cada ítem y cuándo. Si algo falta, se sabe a quién preguntar.
 - Sin bloqueo por intentos fallidos.
 
+### Sesión de PIN por carpeta
+
+- El PIN se pide **al entrar a la carpeta de un niño**.
+- La sesión vale **solo dentro de esa carpeta**: al volver a la lista general se
+  cierra, y entrar a otra carpeta pide el PIN de nuevo (aunque sea la misma persona).
+- **No** hay sesiones por tiempo: así nunca queda registrado a nombre de alguien lo que
+  marcó la siguiente persona en la tablet.
+
 ## 3. Roles
 
 | Rol | Personas | Puede |
@@ -57,7 +65,9 @@ Lo hacen solo los **administradores** (también el egreso y la baja).
 
 | Dato | Obligatorio |
 |---|---|
-| Nombre completo | Sí |
+| Nombres | Sí |
+| Primer apellido (orden de la lista) | Sí |
+| Segundo apellido | No |
 | Fecha de ingreso (base de todo el calendario) | Sí |
 | Caja | Sí |
 | Fecha de nacimiento | No (si está, permite avisar cuando cumpla 7 años y falte la tarjeta de identidad) |
