@@ -35,7 +35,7 @@ export function PrimerAdmin() {
             <option value="gestion_caso">{CARGOS.gestion_caso}</option>
           </select>
         </label>
-        <label className="campo" style={{ width: '100%', textAlign: 'left' }}>Correo Gmail<input type="email" value={email} onChange={(e) => setEmail(e.target.value)} /></label>
+        <label className="campo" style={{ width: '100%', textAlign: 'left' }}>Correo Gmail (opcional · solo para el correo de los lunes)<input type="email" value={email} onChange={(e) => setEmail(e.target.value)} /></label>
         <div className="fila-wrap" style={{ width: '100%', flexWrap: 'nowrap' }}>
           <label className="campo" style={{ flex: 1, textAlign: 'left' }}>PIN (4 dígitos)<input type="password" inputMode="numeric" value={pin} onChange={(e) => setPin(soloDigitos(e.target.value))} /></label>
           <label className="campo" style={{ flex: 1, textAlign: 'left' }}>Repite el PIN<input type="password" inputMode="numeric" value={pin2} onChange={(e) => setPin2(soloDigitos(e.target.value))} /></label>

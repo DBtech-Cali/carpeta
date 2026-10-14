@@ -280,7 +280,7 @@ function Usuarios() {
               {(Object.keys(CARGOS) as Cargo[]).map((c) => <option key={c} value={c}>{CARGOS[c]}</option>)}
             </select>
           </label>
-          <label className="campo">Correo Gmail<input type="email" value={f.email} onChange={(e) => setF({ ...f, email: e.target.value })} /></label>
+          <label className="campo">Correo Gmail (opcional · solo para el correo de los lunes)<input type="email" value={f.email} onChange={(e) => setF({ ...f, email: e.target.value })} /></label>
           <label className="campo">PIN (4 dígitos)<input inputMode="numeric" maxLength={4} value={f.pin} onChange={(e) => setF({ ...f, pin: e.target.value.replace(/\D/g, '') })} /></label>
         </div>
         {f.pin.length === 4 && pinUsado(f.pin) && <p className="txt-rojo" style={{ margin: 0 }}>Ese PIN ya lo usa otra persona.</p>}
