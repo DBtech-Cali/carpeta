@@ -62,7 +62,7 @@ Documentos remitidos por la Defensoría.
 | Ítem | Tipo | Comodín |
 |---|---|---|
 | Boleta de ingreso | Requerido | Sí |
-| Auto (autopar) | Requerido | Sí |
+| PARD (auto de apertura) | Requerido | Sí |
 | Valoración de Trabajo Social | Requerido | Sí |
 | Valoración de Psicología | Requerido | Sí |
 | Valoración de Nutrición | Requerido (siempre, aunque Nutrición no se active) | Sí |
@@ -189,10 +189,8 @@ Sin comodín.
 
 ## 3. Pendientes por definir
 
-- Confirmar si "autopar" es el Auto de apertura del PARD.
 - Fecha de nacimiento del niño: si se registra, avisar cuando cumpla 7 años y falte
   la tarjeta de identidad.
 - Cálculo del porcentaje global de la carpeta.
 - Sistema de estados (verde / rojo) y vistas.
-- Proceso de egreso.
 - Desactivación de Nutrición: qué pasa con la atención del bloque en curso.

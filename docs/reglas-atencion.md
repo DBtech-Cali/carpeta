@@ -102,9 +102,10 @@ Dos al mes, el día ancla y a mitad de mes (+15 días):
 
 ## 8. Egreso
 
-- Al egresar, la carpeta física con todo su material se traslada a otro lugar y el
-  niño o niña sale de la aplicación.
-- Detalle por definir.
+- Al egresar, la carpeta física con todo su material se traslada a otro lugar.
+- En la aplicación el niño o niña **deja de verse** en el panel (solo se muestran los
+  activos) y deja de generar fechas y pendientes.
+- Los datos **no se borran**: quedan guardados como histórico.
 
 ## 9. Ejemplos completos
 
@@ -149,5 +150,4 @@ Dos al mes, el día ancla y a mitad de mes (+15 días):
 ## 10. Pendientes por definir
 
 - Sistema de estados (verde: entregado y al día / rojo: pendiente).
-- Proceso de egreso.
 - Desde qué fecha deja de generar atenciones la desactivación de Nutrición.
