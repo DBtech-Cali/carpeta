@@ -1,5 +1,5 @@
-# Publica la app en Firebase Hosting (https://emj-archivo.web.app) cada vez que
-# cambia la rama main. Necesita el secreto FIREBASE_SERVICE_ACCOUNT del repositorio.
+# Publica la app en GitHub Pages (https://dbtech-cali.github.io/carpeta/) cada vez que
+# cambia la rama main. Requiere Settings → Pages → Source: "GitHub Actions".
 name: Publicar
 
 on:
@@ -7,8 +7,17 @@ on:
     branches: [main]
   workflow_dispatch:
 
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
 jobs:
-  publicar:
+  construir:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -19,9 +28,16 @@ jobs:
       - run: npm ci
       - run: npm test
       - run: npm run build
-      - uses: FirebaseExtended/action-hosting-deploy@v0
+      - uses: actions/upload-pages-artifact@v3
         with:
-          repoToken: ${{ secrets.GITHUB_TOKEN }}
-          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
-          projectId: emj-archivo
-          channelId: live
+          path: dist
+
+  publicar:
+    needs: construir
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.despliegue.outputs.page_url }}
+    steps:
+      - id: despliegue
+        uses: actions/deploy-pages@v4

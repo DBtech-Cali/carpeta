@@ -40,9 +40,9 @@ demostración).
 1. **Authentication**: método Correo/contraseña activo y un usuario con el correo de la
    aplicación. Es el acceso general de cada tablet o computador.
 2. **Firestore**: base de datos creada y reglas de `firestore.rules` publicadas.
-3. **Publicación automática**: el flujo `.github/workflows/publicar.yml` publica en
-   <https://emj-archivo.web.app> cada vez que cambia `main`. Requiere el secreto
-   `FIREBASE_SERVICE_ACCOUNT` en el repositorio (clave JSON de una cuenta de servicio
-   de Firebase).
+3. **Publicación automática en GitHub Pages**: el flujo `.github/workflows/publicar.yml`
+   publica en <https://dbtech-cali.github.io/carpeta/> cada vez que cambia `main`.
+   Requiere, una sola vez, **Settings → Pages → Source: GitHub Actions** en el
+   repositorio. Firebase solo guarda los datos y el inicio de sesión.
 4. La primera vez que se abre la app, pide crear el **primer administrador**; los demás
    usuarios se crean desde **Administración → Usuarios y PIN**.
