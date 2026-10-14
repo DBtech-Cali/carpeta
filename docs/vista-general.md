@@ -56,10 +56,31 @@ Siempre con el número visible además del color.
   rojo, futuras en gris con su fecha.
 - Debajo de cada ítem marcado, en pequeño: "Marcado por Psicóloga · 14 oct".
 
+## 5. Agenda (próximos eventos)
+
+Visible para **todos**. Responde a "¿qué toca hacer?".
+
+- **Arriba, lo urgente:**
+  - 🔴 **Vencidos:** pasó su fecha y no está marcado.
+  - 🟡 **Próximos 7 días.**
+- **Debajo:** calendario con puntos por día + lista agrupada por día de los
+  **próximos 30 días**.
+- **Eventos incluidos:**
+  - atenciones por área (TS, Psicología, Pedagogía, Nutrición en casos especiales);
+  - plan de caso, seguimientos y sus correos de envío;
+  - evaluación preliminar e integradora;
+  - seguimientos de nivel de riesgo;
+  - **vencimientos de documentos:** ADRES, tallaje, cartas y comodines;
+  - carpetas fuera.
+- **Filtros:** por profesional (mismo reparto que los reportes) y por tipo.
+- Tocar un evento abre la carpeta del niño **en esa pestaña** (pide PIN).
+
 ## 5. Panel de administración (coordinador y gestor de caso)
 
 - Registro de niños, egresos y usuarios.
-- **Reportes de pendientes** por profesional y generales.
+- **Reportes descargables** por profesional y generales: **pendientes** (vencidos) y
+  **próximos a ejecutar** (siguientes 30 días).
+- Envío de reportes a los profesionales (por correo u otro medio): por definir.
 - Préstamos de carpetas y alertas.
 - Registro libre de revisiones.
 
