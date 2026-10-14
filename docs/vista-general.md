@@ -80,7 +80,8 @@ Visible para **todos**. Responde a "¿qué toca hacer?".
 - Registro de niños, egresos y usuarios.
 - **Reportes descargables** por profesional y generales: **pendientes** (vencidos) y
   **próximos a ejecutar** (siguientes 30 días).
-- Envío de reportes a los profesionales (por correo u otro medio): por definir.
+- **Correo semanal automático** (cada lunes temprano) a cada profesional con sus
+  pendientes y lo próximo a ejecutar. Ver `roles-y-permisos.md`, sección de correo.
 - Préstamos de carpetas y alertas.
 - Registro libre de revisiones.
 

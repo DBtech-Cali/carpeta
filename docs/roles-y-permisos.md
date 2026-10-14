@@ -26,6 +26,10 @@ Complementa [`reglas-atencion.md`](reglas-atencion.md) y
 - **No** hay sesiones por tiempo: así nunca queda registrado a nombre de alguien lo que
   marcó la siguiente persona en la tablet.
 
+### Correo de cada usuario
+
+- Cada usuario tiene registrado, además del PIN, su **correo Gmail** personal.
+
 ## 3. Roles
 
 | Rol | Personas | Puede |
@@ -92,3 +96,13 @@ saber si todas las carpetas están en su lugar.
 - Cada niño tiene su caja para encontrarlo rápido (ej.: "Lady → caja 6").
 - **Cualquier usuario** puede asignar o cambiar la caja, porque el orden se mueve
   según la llegada de los niños.
+
+## 9. Correo semanal automático
+
+- Se crea **una cuenta Gmail propia de la aplicación** (ej.: archivo de Semillas). Sirve
+  como dueña del proyecto Firebase, como acceso general de la tablet y como remitente.
+- Un **script de Google (Apps Script)** en esa cuenta, programado **cada lunes
+  temprano**, envía a cada profesional su reporte: pendientes (vencidos) y próximos
+  30 días. Los administradores reciben el reporte general.
+- Gratis; funciona con cuentas Gmail normales (no requiere Google Workspace). El límite
+  diario de Gmail (~100 destinatarios) sobra para ~6 usuarios.
