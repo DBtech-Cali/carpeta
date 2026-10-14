@@ -51,21 +51,34 @@ Pendientes agrupados por responsable:
 | Pestañas Pedagogía y Escuela, atenciones de Pedagogía | Pedagoga |
 | Inicio, Pacto de convivencia, Socio legal, Informes, Proyecto de vida | General |
 
-## 6. Préstamo de carpetas
+## 6. Registro de niños
 
-Registro de cuándo alguien **retira** una carpeta física (por ejemplo, para revisar
-algo) y cuándo la **devuelve**, para saber si todas las carpetas están en su lugar.
-Detalle por definir.
+Lo hacen solo los **administradores** (también el egreso y la baja).
 
-## 7. Ubicación física (cajas)
+| Dato | Obligatorio |
+|---|---|
+| Nombre completo | Sí |
+| Fecha de ingreso (base de todo el calendario) | Sí |
+| Caja | Sí |
+| Fecha de nacimiento | No (si está, permite avisar cuando cumpla 7 años y falte la tarjeta de identidad) |
 
-Las carpetas se guardan en **cajas numeradas**. Cada niño tiene asignada su caja
-para encontrarlo rápido (ej.: "Lady → caja 6"). Detalle por definir.
+Volumen aproximado: **60 niños** activos.
 
-## 8. Pendientes por definir
+## 7. Préstamo de carpetas
 
-- Datos que se registran de cada niño al ingresarlo.
-- Préstamo: quién lo registra, si se anota motivo y si hay alerta por carpetas que
-  llevan mucho tiempo fuera.
-- Cajas: cantidad de cajas, quién asigna o cambia la caja de un niño.
-- Volumen aproximado de niños activos a la vez.
+Registro de cuándo alguien **retira** una carpeta física y cuándo la **devuelve**, para
+saber si todas las carpetas están en su lugar.
+
+- **Retirar:** la persona ingresa su PIN; la app guarda quién y la fecha y hora.
+- **Devolver:** la persona ingresa su PIN; la app guarda quién y la fecha y hora.
+- Sin motivo.
+- **Alerta** si una carpeta lleva **más de 7 días fuera** (y el niño no ha egresado).
+- Con la carpeta fuera **se pueden seguir marcando ítems** (a menudo se retira
+  justamente para ponerla al día).
+
+## 8. Ubicación física (cajas)
+
+- Las carpetas se guardan en **cajas numeradas** (hoy 13, máximo 15).
+- Cada niño tiene su caja para encontrarlo rápido (ej.: "Lady → caja 6").
+- **Cualquier usuario** puede asignar o cambiar la caja, porque el orden se mueve
+  según la llegada de los niños.
