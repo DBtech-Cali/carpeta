@@ -75,7 +75,7 @@ Visible para **todos**. Responde a "¿qué toca hacer?".
 - **Filtros:** por profesional (mismo reparto que los reportes) y por tipo.
 - Tocar un evento abre la carpeta del niño **en esa pestaña** (pide PIN).
 
-## 5. Panel de administración (coordinador y gestor de caso)
+## 6. Panel de administración (coordinador y gestor de caso)
 
 - Registro de niños, egresos y usuarios.
 - **Reportes descargables** por profesional y generales: **pendientes** (vencidos) y
