@@ -12,7 +12,7 @@ Las fechas de plan de caso, seguimientos y atenciones están en
 - Los ítems **opcionales** no suman ni restan.
 - Un ítem **con fecha** se exige desde el **día siguiente** a su fecha (el mismo día
   todavía se puede entregar sin que cuente como faltante).
-- Un ítem **sin fecha** se exige siempre (asumido: desde el ingreso).
+- Un ítem **sin fecha** se exige desde el **día del ingreso**.
 - Si una pestaña aún no tiene ítems exigibles, se muestra como "sin pendientes aún".
 - Un ítem marcado pero **vencido** (por ejemplo, ADRES fuera de vigencia) cuenta
   como no cumplido.
@@ -192,7 +192,6 @@ Sin comodín.
 - Confirmar si "autopar" es el Auto de apertura del PARD.
 - Fecha de nacimiento del niño: si se registra, avisar cuando cumpla 7 años y falte
   la tarjeta de identidad.
-- Confirmar que los ítems sin fecha se exigen desde el ingreso.
 - Cálculo del porcentaje global de la carpeta.
 - Sistema de estados (verde / rojo) y vistas.
 - Proceso de egreso.
