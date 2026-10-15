@@ -66,11 +66,20 @@ describe('Nutrición', () => {
     expect(tab(n, '2026-11-13', 'nutricion').pct).toBe(100);
     expect(tab(n, '2026-11-14', 'nutricion').pct).toBe(50);
   });
-  it('caso especial: tallaje a 3 meses y atención por bloque', () => {
-    const n = nino({ 'nutricion.valoracion_inicial': m(), 'nutricion.tallaje': m({ fecha: '2026-09-01' }) }, { nutricion: { desde: '2026-09-07' } });
+  it('caso especial: tallaje a 3 meses y atenciones desde el plan de caso aunque se marque tarde', () => {
+    const n = nino({ 'nutricion.valoracion_inicial': m(), 'nutricion.tallaje': m({ fecha: '2026-09-01' }) }, { nutricion: { desde: '2026-10-20' } });
     const t = tab(n, '2026-10-23', 'nutricion');
+    expect(t.items.find((i) => i.id === 'ate.nutricion.b0')?.fecha).toBe('2026-07-22');
     expect(t.items.find((i) => i.id === 'ate.nutricion.b1')?.estado).toBe('vencido');
-    expect(t.pct).toBe(67);
+    expect(t.pct).toBe(50);
+  });
+});
+
+describe('Escuela', () => {
+  it('exige boletín y constancia del año; la carta cubre ambos', () => {
+    expect(tab(nino({ 'escuela.constancia': m({ anio: 2026 }) }), '2026-10-15', 'escuela').pct).toBe(50);
+    expect(tab(nino({ 'escuela.boletin': m(), 'escuela.constancia': m({ anio: 2026 }) }), '2026-10-15', 'escuela').pct).toBe(100);
+    expect(tab(nino({ 'escuela.comodin': m({ fecha: '2026-10-01' }) }), '2026-10-15', 'escuela').pct).toBe(100);
   });
 });
 

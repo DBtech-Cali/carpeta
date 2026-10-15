@@ -168,8 +168,9 @@ Sin comodín.
 
 | Ítem | Tipo |
 |---|---|
+| Boletín | Requerido, sin periodicidad (está o no está) |
 | Constancia de estudio del año en curso (se registra el año) | Requerido |
-| Carta de solicitud | Comodín simple, 1 mes |
+| Carta de solicitud | Comodín simple, 1 mes (cubre boletín y constancia) |
 
 Desde el 1 de enero se exige la constancia del nuevo año (o la carta).
 Sin excepciones: todo niño debe estar escolarizado.

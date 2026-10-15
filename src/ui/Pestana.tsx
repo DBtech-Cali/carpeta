@@ -216,8 +216,8 @@ function CasoEspecial({ nino }: { nino: Nino }) {
         <span className="item__nombre">Caso especial (exceso o déficit de peso)</span>
         <span className="item__nota">
           {activo
-            ? `Activo desde el ${corta(nino.nutricion!.desde, hoy)}: una atención por trimestre y tallaje cada 3 meses. Al desactivarlo deja de exigirse todo lo de nutrición.`
-            : 'Al activarlo empieza una atención por trimestre, desde el bloque actual.'}
+            ? `Marcado el ${corta(nino.nutricion!.desde, hoy)}: una atención por trimestre desde el plan de caso y tallaje cada 3 meses. Al desactivarlo deja de exigirse todo lo de nutrición.`
+            : 'Al activarlo se exige una atención por trimestre desde el plan de caso.'}
         </span>
       </span>
     </section>

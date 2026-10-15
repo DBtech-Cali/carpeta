@@ -78,16 +78,12 @@ Dos al mes, el día ancla y a mitad de mes (+15 días):
 
 - Se activa **solo cuando el nutricionista incluye al niño o niña** por afectación
   nutricional (exceso o déficit de peso).
-- Puede activarse **en el plan de caso o en cualquier seguimiento** posterior.
-- Desde el hito en que se activa: **1 atención por bloque trimestral**
-  (plan → 1er seguimiento, 1er → 2º, 2º → 3º, …), en la fecha
-  **hito que abre el bloque + 45 días**.
+- Se activa marcando **"Caso especial"** en la pestaña Nutrición.
+- Sin importar cuándo se marque, se exige **1 atención por bloque trimestral desde el
+  plan de caso** (plan → 1er seguimiento, 1er → 2º, 2º → 3º, …), en la fecha
+  **hito que abre el bloque + 45 días**. Así, al pasar carpetas antiguas a la app
+  aparecen las atenciones que debieron hacerse.
 - **No usa** las reglas de 15 días ni mensuales de las otras áreas.
-- Se activa marcando **"Caso especial"** en la pestaña Nutrición. Si se marca a mitad
-  de un bloque, la primera atención es la de **ese mismo bloque** y sigue en los
-  siguientes.
-- Si se marca **después** de la fecha de atención del bloque (hito + 45 días), la
-  fecha límite de esa primera atención es el **seguimiento que cierra el bloque**.
 - El nutricionista **puede desactivarla** cuando el niño recupera o estabiliza su peso.
   Al desactivarla **deja de exigirse todo** lo de Nutrición (incluidas atenciones ya
   vencidas) hasta que se vuelva a activar.
@@ -111,12 +107,12 @@ Dos al mes, el día ancla y a mitad de mes (+15 días):
 
 ## 9. Ejemplos completos
 
-### Ingreso 7 de mayo de 2026 (Nutrición activada en el 1er seguimiento)
+### Ingreso 7 de mayo de 2026 (Nutrición como caso especial)
 
 | Hito / bloque | TS / Psicología / Pedagogía (c/u) | Nutrición |
 |---|---|---|
 | **Plan de caso** — 7 jun 2026 | | |
-| Periodo 1 | 22 jun · 7 jul · 22 jul · 7 ago · 22 ago | — |
+| Periodo 1 | 22 jun · 7 jul · 22 jul · 7 ago · 22 ago | 22 jul |
 | **1er seguimiento** — 7 sep 2026 | | |
 | Periodo 2 | 7 oct · 7 nov · 2 dic | 22 oct |
 | **2º seguimiento** — 7 dic 2026 | | |

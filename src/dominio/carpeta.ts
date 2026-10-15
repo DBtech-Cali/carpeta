@@ -286,7 +286,9 @@ export function evaluarCarpeta(nino: Nino, hoy: Fecha): CarpetaEval {
     c.doc('nutricion.valoracion_inicial', 'Valoración nutricional inicial');
     c.vigente('nutricion.tallaje', `Tallaje (peso y talla) · vigencia ${activa ? 3 : 6} meses`, activa ? 3 : 6);
     if (nino.nutricion) {
-      for (const a of atencionesNutricion(nino.fechaIngreso, nino.nutricion.desde, hasta)) {
+      // Se exigen desde el plan de caso, sin importar cuándo se marcó el caso especial:
+      // al pasar carpetas antiguas a la app aparecen las atenciones que debieron hacerse.
+      for (const a of atencionesNutricion(nino.fechaIngreso, nino.fechaIngreso, hasta)) {
         c.programada(`ate.nutricion.${a.id}`, a.etiqueta, a.fecha, 'Atenciones de caso especial');
       }
     }
@@ -320,6 +322,7 @@ export function evaluarCarpeta(nino: Nino, hoy: Fecha): CarpetaEval {
     const m = c.marca('escuela.constancia');
     const deEsteAnio = m?.anio === anio;
     const exigible = c.exigeSinFecha;
+    c.doc('escuela.boletin', 'Boletín', { cubierto: cubre });
     c.items.push({
       id: 'escuela.constancia', etiqueta: `Constancia de estudio ${anio}`, tipo: 'doc', marca: m, exigible,
       cumple: exigible && (deEsteAnio || cubre),
@@ -327,7 +330,7 @@ export function evaluarCarpeta(nino: Nino, hoy: Fecha): CarpetaEval {
       nota: m && !deEsteAnio ? `La marcada es de ${m.anio}: se necesita la de ${anio}` : cubre && !deEsteAnio ? 'Cubierto por la carta de solicitud' : undefined,
       pide: 'anio', responsable: 'pedagogia',
     });
-    c.comodin('escuela.comodin', 'Carta de solicitud', 1, 'la constancia');
+    c.comodin('escuela.comodin', 'Carta de solicitud', 1, 'el boletín y la constancia');
     tabs.push(c.tab('escuela'));
   }
 
