@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { agenda, DIAS_ALERTA_PRESTAMO, diasFuera, pendientes } from '../dominio/agenda';
+import { agenda, catalogoItems, DIAS_ALERTA_PRESTAMO, diasFuera, type EstadoReporte, pendientes, reportePorItem } from '../dominio/agenda';
 import { TABS } from '../dominio/carpeta';
 import { corta, larga } from '../dominio/fechas';
 import { type Cargo, CARGOS, type Nino, nombreCompleto, ordenarNinos, type Responsable, RESPONSABLES, type Usuario } from '../dominio/modelo';
@@ -62,6 +62,93 @@ function CerrarAcceso() {
 }
 
 function Reportes() {
+  const [modo, setModo] = useState<'profesional' | 'item'>('profesional');
+  return (
+    <>
+      <div className="fila-wrap no-imprimir" role="group" aria-label="Tipo de reporte">
+        <button type="button" className="chip" aria-pressed={modo === 'profesional'} onClick={() => setModo('profesional')}>Por profesional</button>
+        <button type="button" className="chip" aria-pressed={modo === 'item'} onClick={() => setModo('item')}>Por ítem de la carpeta</button>
+      </div>
+      {modo === 'profesional' ? <ReportesProfesional /> : <ReporteItem />}
+    </>
+  );
+}
+
+const ESTADOS_REPORTE: Record<EstadoReporte, [string, string]> = {
+  falta: ['Falta', 'pastilla--rojo'],
+  vencido: ['Vencido', 'pastilla--rojo'],
+  cubierto: ['Cubierto por solicitud', 'pastilla--violeta'],
+  exonerado: ['Exonerado', 'pastilla--ambar'],
+  al_dia: ['Al día', 'pastilla--verde'],
+  no_aplica: ['Aún no se exige', ''],
+};
+
+function ReporteItem() {
+  const { datos, hoy } = useApp();
+  const catalogo = useMemo(() => catalogoItems(hoy), [hoy]);
+  const [itemId, setItemId] = useState('socio.adres');
+  const [verTodos, setVerTodos] = useState(false);
+  const filas = useMemo(() => reportePorItem(datos.ninos, hoy, itemId), [datos.ninos, hoy, itemId]);
+  const item = catalogo.find((i) => i.id === itemId);
+  const problema = filas.filter((f) => f.estado === 'falta' || f.estado === 'vencido');
+  const visibles = verTodos ? filas : problema;
+  const cuenta = (e: EstadoReporte) => filas.filter((f) => f.estado === e).length;
+  const pestanas = [...new Set(catalogo.map((i) => i.tabNombre))];
+
+  return (
+    <>
+      <div className="no-imprimir">
+        <h1 className="titulo">Reporte por ítem</h1>
+        <p className="bajada">Elige un documento y mira a qué niños les falta o lo tienen vencido. Solo consulta: no cambia ningún dato.</p>
+      </div>
+      <div className="fila-wrap no-imprimir" style={{ alignItems: 'flex-end' }}>
+        <label className="campo" style={{ flex: '2 1 320px' }}>Ítem
+          <select value={itemId} onChange={(e) => setItemId(e.target.value)}>
+            {pestanas.map((p) => (
+              <optgroup key={p} label={p}>
+                {catalogo.filter((i) => i.tabNombre === p).map((i) => <option key={i.id} value={i.id}>{i.etiqueta}</option>)}
+              </optgroup>
+            ))}
+          </select>
+        </label>
+        <button type="button" className="chip" aria-pressed={verTodos} onClick={() => setVerTodos(!verTodos)}>Ver también los que están al día</button>
+      </div>
+
+      <section className="tarjeta" aria-label="Reporte por ítem">
+        <div className="fila-wrap" style={{ padding: '18px 22px', borderBottom: '1px solid var(--borde)', justifyContent: 'space-between' }}>
+          <div>
+            <span className="etiqueta-mono">Semillas Salesianas · reporte del {larga(hoy)} · {item?.tabNombre}</span>
+            <h2 className="subtitulo" style={{ marginTop: 2 }}>{item?.etiqueta}</h2>
+            <p className="txt-tenue" style={{ margin: '6px 0 0', fontSize: 14 }}>
+              {cuenta('falta')} faltan · {cuenta('vencido')} vencidos · {cuenta('cubierto')} cubiertos por solicitud · {cuenta('exonerado')} exonerados · {cuenta('al_dia')} al día
+            </p>
+          </div>
+          <button type="button" className="btn btn--primario no-imprimir" onClick={() => window.print()}>
+            <Icono d={ICONOS.descargar} color="#fff" /> Descargar PDF
+          </button>
+        </div>
+        <div className="desborde">
+          <table className="tabla">
+            <thead><tr><th>Niño</th><th>Caja</th><th>Estado</th><th>Detalle</th></tr></thead>
+            <tbody>
+              {visibles.map((f) => (
+                <tr key={f.ninoId}>
+                  <td><a href={`#/nino/${f.ninoId}/${item?.tab ?? ''}`} style={{ color: 'var(--tinta)' }}><strong>{f.nino}</strong></a></td>
+                  <td className="pct" style={{ textAlign: 'left' }}>{f.caja}</td>
+                  <td><span className={`pastilla ${ESTADOS_REPORTE[f.estado][1]}`}>{ESTADOS_REPORTE[f.estado][0]}</span></td>
+                  <td className="txt-tenue" style={{ fontSize: 14 }}>{f.nota ?? ''}</td>
+                </tr>
+              ))}
+              {visibles.length === 0 && <tr><td colSpan={4} className="txt-tenue">Ningún niño tiene este ítem faltante o vencido. ¡Bien!</td></tr>}
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </>
+  );
+}
+
+function ReportesProfesional() {
   const { datos, hoy } = useApp();
   const [quien, setQuien] = useState<Responsable>('psicologia');
   const pend = useMemo(() => pendientes(datos.ninos, hoy), [datos.ninos, hoy]);

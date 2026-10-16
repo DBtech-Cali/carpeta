@@ -80,6 +80,9 @@ Visible para **todos**. Responde a "¿qué toca hacer?".
 - Registro de niños, egresos y usuarios.
 - **Reportes descargables** por profesional y generales: **pendientes** (vencidos) y
   **próximos a ejecutar** (siguientes 30 días).
+- **Reporte por ítem**: se elige un documento de la carpeta (ADRES, boletín, etc.) y
+  lista los niños a los que les falta o lo tienen vencido (opcionalmente también los
+  que están al día). Solo consulta: no cambia datos.
 - **Correo semanal automático** (cada lunes temprano) a cada profesional con sus
   pendientes y lo próximo a ejecutar. Ver `roles-y-permisos.md`, sección de correo.
 - Préstamos de carpetas y alertas.

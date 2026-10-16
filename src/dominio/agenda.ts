@@ -80,3 +80,60 @@ export function pendientes(ninos: Nino[], hoy: Fecha): Pendiente[] {
   }
   return out.sort((a, b) => a.nino.localeCompare(b.nino, 'es') || (a.fecha ?? '').localeCompare(b.fecha ?? ''));
 }
+
+/** Ítems que se pueden consultar uno a uno en el reporte por ítem (documentos, no atenciones). */
+export interface ItemCatalogo {
+  id: string;
+  etiqueta: string;
+  tab: TabId;
+  tabNombre: string;
+}
+
+const NINO_MODELO: Nino = {
+  id: 'modelo', nombres: '', primerApellido: '', fechaIngreso: '2000-01-01', caja: 0, activo: true, marcas: {},
+  responsableRiesgo: 'psicologia', nutricion: null,
+};
+
+export function catalogoItems(hoy: Fecha): ItemCatalogo[] {
+  const out: ItemCatalogo[] = [];
+  for (const tab of evaluarCarpeta(NINO_MODELO, hoy).tabs) {
+    for (const it of tab.items) {
+      const documento = it.tipo === 'doc' || it.tipo === 'opcional';
+      const fijo = it.tipo === 'programada' && !it.grupo && !/_\d+$/.test(it.id); // sin seguimientos numerados
+      if (documento || fijo) out.push({ id: it.id, etiqueta: it.etiqueta, tab: tab.id, tabNombre: tab.nombre });
+    }
+  }
+  return out;
+}
+
+export type EstadoReporte = 'falta' | 'vencido' | 'cubierto' | 'exonerado' | 'al_dia' | 'no_aplica';
+
+export interface FilaReporteItem {
+  ninoId: string;
+  nino: string;
+  caja: number;
+  estado: EstadoReporte;
+  nota?: string;
+}
+
+/** Estado de un ítem en cada niño activo. Solo lee: no cambia ningún dato. */
+export function reportePorItem(ninos: Nino[], hoy: Fecha, itemId: string): FilaReporteItem[] {
+  const out: FilaReporteItem[] = [];
+  for (const n of ninos.filter((x) => x.activo)) {
+    const it = evaluarCarpeta(n, hoy).tabs.flatMap((t) => t.items).find((i) => i.id === itemId);
+    const base = { ninoId: n.id, nino: nombreCompleto(n), caja: n.caja };
+    if (!it) {
+      out.push({ ...base, estado: 'no_aplica' });
+      continue;
+    }
+    const estado: EstadoReporte =
+      it.estado === 'exonerado' ? 'exonerado'
+      : it.estado === 'cubierto' ? 'cubierto'
+      : it.estado === 'vencido' ? 'vencido'
+      : it.estado === 'pendiente' ? 'falta'
+      : it.marca ? 'al_dia'
+      : it.exigible ? 'falta' : 'no_aplica';
+    out.push({ ...base, estado, nota: it.nota });
+  }
+  return out.sort((a, b) => a.nino.localeCompare(b.nino, 'es'));
+}

@@ -111,3 +111,17 @@ describe('Agenda', () => {
     expect(agenda([n], '2026-06-08').some((e) => e.que.startsWith('Carpeta fuera'))).toBe(false);
   });
 });
+
+describe('Reporte por ítem', () => {
+  it('lista a quién le falta o tiene vencido un documento sin cambiar datos', async () => {
+    const { catalogoItems, reportePorItem } = await import('./agenda');
+    expect(catalogoItems('2026-10-16').map((i) => i.id)).toEqual(expect.arrayContaining(['socio.adres', 'escuela.boletin', 'escuela.constancia']));
+    const a = nino({ 'socio.adres': m({ fecha: '2026-09-01' }) }, { id: 'a', nombres: 'Ana' });
+    const b = nino({ 'socio.adres': m({ fecha: '2026-05-01' }) }, { id: 'b', nombres: 'Beto' });
+    const c = nino({}, { id: 'c', nombres: 'Caro' });
+    const copia = JSON.stringify([a, b, c]);
+    const filas = reportePorItem([a, b, c], '2026-10-16', 'socio.adres');
+    expect(Object.fromEntries(filas.map((f) => [f.ninoId, f.estado]))).toEqual({ a: 'al_dia', b: 'vencido', c: 'falta' });
+    expect(JSON.stringify([a, b, c])).toBe(copia);
+  });
+});
