@@ -149,7 +149,7 @@ Sin comodín.
 | Ítem | Tipo |
 |---|---|
 | Pacto de familia | Requerido, sin fecha |
-| Análisis del auxilio de transporte | Requerido, sin fecha (no importa si se aprueba) |
+| Análisis del auxilio de transporte | Requerido al mes del ingreso (se exige desde el día siguiente; antes queda "por trabajar", no vencido). No importa si se aprueba |
 | Atenciones de Trabajo Social | Según calendario |
 | Seguimientos de nivel de riesgo | Si TS es la responsable |
 

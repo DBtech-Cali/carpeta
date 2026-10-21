@@ -76,7 +76,7 @@ export function Pestana({ nino, tab, sesion }: { nino: Nino; tab: TabEval; sesio
                 </span>
                 {it.tipo === 'opcional' && <span className="pastilla">Opcional</span>}
                 {pastilla && <span className={`pastilla ${pastilla[1]}`}>{pastilla[0]}</span>}
-                {it.tipo === 'programada' && !it.marca && it.estado === 'futuro' && <span className="pastilla">Programado</span>}
+                {it.tipo === 'programada' && !it.marca && it.estado === 'futuro' && <span className="pastilla">Por trabajar</span>}
               </div>
             );
           })}

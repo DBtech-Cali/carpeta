@@ -75,6 +75,17 @@ describe('Nutrición', () => {
   });
 });
 
+describe('Trabajo social: auxilio de transporte', () => {
+  it('se exige desde el día siguiente al mes del ingreso; antes queda por trabajar', () => {
+    const it = (hoy: string) => tab(nino(), hoy, 'trabajo_social').items.find((i) => i.id === 'ts.transporte')!;
+    expect(it('2026-05-20').estado).toBe('futuro');
+    expect(it('2026-06-07').exigible).toBe(false);
+    expect(it('2026-06-08').estado).toBe('vencido');
+    const marcado = tab(nino({ 'ts.transporte': m() }), '2026-06-20', 'trabajo_social').items.find((i) => i.id === 'ts.transporte')!;
+    expect(marcado.cumple).toBe(true);
+  });
+});
+
 describe('Escuela', () => {
   it('exige boletín y constancia del año; la carta cubre ambos', () => {
     expect(tab(nino({ 'escuela.constancia': m({ anio: 2026 }) }), '2026-10-15', 'escuela').pct).toBe(50);
