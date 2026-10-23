@@ -81,6 +81,11 @@ describe('Trabajo social: auxilio de transporte', () => {
     expect(it('2026-05-20').estado).toBe('futuro');
     expect(it('2026-06-07').exigible).toBe(false);
     expect(it('2026-06-08').estado).toBe('vencido');
+    // Ejemplo del equipo: ingreso 2 ago → se pide el 2 sep, vencido desde el 3 sep.
+    const ago = (hoy: string) => tab(nino({}, { fechaIngreso: '2026-08-02' }), hoy, 'trabajo_social').items.find((i) => i.id === 'ts.transporte')!;
+    expect(ago('2026-09-02').fecha).toBe('2026-09-02');
+    expect(ago('2026-09-02').estado).toBe('futuro');
+    expect(ago('2026-09-03').estado).toBe('vencido');
     const marcado = tab(nino({ 'ts.transporte': m() }), '2026-06-20', 'trabajo_social').items.find((i) => i.id === 'ts.transporte')!;
     expect(marcado.cumple).toBe(true);
   });

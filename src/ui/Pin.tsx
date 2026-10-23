@@ -3,12 +3,13 @@ import type { Usuario } from '../dominio/modelo';
 import { Brote, useApp } from './comunes';
 
 /** Teclado de PIN. Identifica a la persona por su PIN (único). */
-export function Pin({ contexto, titulo, onOk, onCancelar, validar }: {
+export function Pin({ contexto, titulo, onOk, onCancelar, validar, nota }: {
   contexto: string;
   titulo: string;
   onOk: (u: Usuario) => void;
   onCancelar: () => void;
   validar?: (u: Usuario) => string | null;
+  nota?: string;
 }) {
   const { datos } = useApp();
   const [pin, setPin] = useState('');
@@ -52,7 +53,7 @@ export function Pin({ contexto, titulo, onOk, onCancelar, validar }: {
           <button type="button" className="tecla" onClick={() => pulsar('0')}>0</button>
           <button type="button" className="tecla" aria-label="Borrar último dígito" onClick={() => setPin((p) => p.slice(0, -1))}>←</button>
         </div>
-        <p className="txt-tenue" style={{ fontSize: 13, margin: 0 }}>Todo lo que marques quedará a tu nombre. La sesión se cierra al volver a la lista.</p>
+        <p className="txt-tenue" style={{ fontSize: 13, margin: 0 }}>{nota ?? 'Todo lo que marques quedará a tu nombre. La sesión se cierra al volver a la lista.'}</p>
         <button type="button" className="btn btn--suave" onClick={onCancelar}>Cancelar</button>
       </section>
     </div>

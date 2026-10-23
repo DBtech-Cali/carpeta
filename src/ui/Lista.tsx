@@ -1,15 +1,29 @@
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import { agenda, DIAS_ALERTA_PRESTAMO, diasFuera } from '../dominio/agenda';
 import { evaluarCarpeta } from '../dominio/carpeta';
 import { corta, diasEntre } from '../dominio/fechas';
-import { ordenarNinos } from '../dominio/modelo';
+import { type Nino, nombreCompleto, ordenarNinos, type Usuario } from '../dominio/modelo';
 import { Barra, Encabezado, Icono, ICONOS, useApp } from './comunes';
+import { Pin } from './Pin';
 
 type Filtro = 'todos' | 'bajo' | 'fuera' | 'caja';
 
 export function Lista() {
-  const { datos, hoy } = useApp();
+  const { datos, hoy, repo } = useApp();
   const [q, setQ] = useState('');
+  const [mover, setMover] = useState<Nino | null>(null);
+  const ocupado = useRef(false);
+  // Retirar o devolver desde la lista: pide el PIN de quien lo hace y no abre la carpeta.
+  const confirmarMovimiento = useCallback(async (u: Usuario) => {
+    if (!mover || ocupado.current) return;
+    ocupado.current = true;
+    try {
+      await repo.moverCarpeta(mover.id, mover.prestamo ? 'devolucion' : 'retiro', u.id);
+    } finally {
+      ocupado.current = false;
+      setMover(null);
+    }
+  }, [mover, repo]);
   const [filtro, setFiltro] = useState<Filtro>('todos');
   const [caja, setCaja] = useState<number | ''>('');
 
@@ -88,14 +102,18 @@ export function Lista() {
 
         <section className="tarjeta lista" aria-label="Lista de niños">
           <div className="lista__cab etiqueta-mono">
+            <span className="lista__enlace">
             <span className="col-nombre">Niño</span>
             <span className="col-caja">Caja</span>
             <span className="col-prog">Carpeta al día</span>
             <span className="col-ubic">Ubicación</span>
             <span className="col-prox">Próximo</span>
+            </span>
+            <span className="col-accion" style={{ minWidth: 120 }}>Carpeta física</span>
           </div>
           {visibles.map(({ n, pct, vencidos, siguiente, fuera }) => (
-            <a key={n.id} className="lista__fila" href={`#/nino/${n.id}`}>
+            <div key={n.id} className="lista__fila">
+            <a className="lista__enlace" href={`#/nino/${n.id}`}>
               <span className="col-nombre">
                 <strong style={{ fontSize: 17 }}>{[n.primerApellido, n.segundoApellido].filter(Boolean).join(' ')},</strong>
                 <span className="txt-tenue">{n.nombres}</span>
@@ -104,7 +122,7 @@ export function Lista() {
               <span className="col-prog"><Barra pct={pct} etiqueta={`Carpeta al día de ${n.nombres}`} /></span>
               <span className="col-ubic">
                 {fuera === null ? <span className="pastilla">En su caja</span>
-                  : <span className={`pastilla ${fuera > DIAS_ALERTA_PRESTAMO ? 'pastilla--rojo' : 'pastilla--ambar'}`}>Fuera · {fuera === 1 ? '1 día' : `${fuera} días`}</span>}
+                  : <span className={`pastilla ${fuera > DIAS_ALERTA_PRESTAMO ? 'pastilla--rojo' : 'pastilla--ambar'}`}>Fuera · {fuera === 0 ? 'hoy' : fuera === 1 ? '1 día' : `${fuera} días`}</span>}
               </span>
               <span className="col-prox fila-wrap" style={{ gap: 8 }}>
                 <Icono d={ICONOS.reloj} tam={16} color="#5A5F7A" />
@@ -113,10 +131,27 @@ export function Lista() {
                   : <span className="txt-tenue">Nada en 30 días</span>}
               </span>
             </a>
+            <span className="col-accion">
+              <button type="button" className={`btn ${n.prestamo ? 'btn--oscuro' : 'btn--borde'}`} style={{ minWidth: 120 }} onClick={() => setMover(n)}>
+                {n.prestamo ? 'Devolver' : 'Retirar'}
+              </button>
+            </span>
+            </div>
           ))}
           {visibles.length === 0 && <p style={{ padding: 28, textAlign: 'center', margin: 0 }} className="txt-tenue">Ningún niño coincide con la búsqueda.</p>}
         </section>
       </main>
+      {mover && (
+        <div className="capa-pin">
+          <Pin
+            contexto={`${mover.prestamo ? 'Devolver' : 'Retirar'} carpeta · caja ${mover.caja}`}
+            titulo={nombreCompleto(mover)}
+            onOk={confirmarMovimiento}
+            onCancelar={() => setMover(null)}
+            nota={`El ${mover.prestamo ? 'regreso' : 'retiro'} queda registrado a tu nombre con la fecha y la hora.`}
+          />
+        </div>
+      )}
     </>
   );
 }

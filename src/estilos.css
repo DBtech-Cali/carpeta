@@ -104,7 +104,12 @@ h2.subtitulo { margin: 0; font-family: var(--titulo); font-weight: 700; font-siz
 .lista__cab, .lista__fila { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 20px; padding: 14px 22px; }
 .lista__cab { background: #f8f9fd; border-bottom: 1px solid var(--borde); }
 .lista__fila { border-bottom: 1px solid var(--borde-suave); text-decoration: none; color: var(--tinta); min-height: 64px; }
-.lista__fila:hover { background: #fafaff; color: var(--tinta); }
+.lista__fila:hover { background: #fafaff; }
+.lista__enlace { flex: 1 1 760px; min-width: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 10px 20px; text-decoration: none; color: var(--tinta); }
+.lista__enlace:hover { color: var(--tinta); }
+.lista__cab { justify-content: space-between; }
+.col-accion { flex: 0 0 auto; }
+.capa-pin { position: fixed; inset: 0; z-index: 30; overflow-y: auto; }
 .col-nombre { flex: 2 1 240px; display: flex; flex-direction: column; }
 .col-caja { flex: 0 0 72px; }
 .col-prog { flex: 2 1 220px; }

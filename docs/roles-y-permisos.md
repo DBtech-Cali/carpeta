@@ -85,6 +85,8 @@ saber si todas las carpetas están en su lugar.
 
 - **Retirar:** la persona ingresa su PIN; la app guarda quién y la fecha y hora.
 - **Devolver:** la persona ingresa su PIN; la app guarda quién y la fecha y hora.
+- Se hace desde la **lista de carpetas** (botón Retirar / Devolver en cada niño, sin
+  abrir la carpeta) o desde dentro de la carpeta.
 - Sin motivo.
 - **Alerta** si una carpeta lleva **más de 7 días fuera** (y el niño no ha egresado).
 - Con la carpeta fuera **se pueden seguir marcando ítems** (a menudo se retira

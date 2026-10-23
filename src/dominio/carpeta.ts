@@ -300,7 +300,7 @@ export function evaluarCarpeta(nino: Nino, hoy: Fecha): CarpetaEval {
     const c = nuevo('trabajo_social');
     c.doc('ts.pacto_familia', 'Pacto de familia');
     // Se solicita al mes del ingreso; antes queda como pendiente por trabajar, no vencido.
-    c.programada('ts.transporte', 'Análisis del auxilio de transporte', sumarMeses(nino.fechaIngreso, 1), undefined, undefined, false);
+    c.programada('ts.transporte', 'Análisis del auxilio de transporte', sumarMeses(nino.fechaIngreso, 1));
     atencionesDeArea(c, nino, hasta, 'trabajo_social');
     riesgo(c, nino, hasta, 'trabajo_social');
     tabs.push(c.tab('trabajo_social'));
