@@ -1,8 +1,8 @@
 // Evaluación de la carpeta: qué se exige hoy en cada pestaña y cuánto se cumple.
 // Ver docs/contenido-carpeta.md.
-import { atenciones, atencionesNutricion, informes, nivelRiesgo, type AreaAtencion } from './calendario';
+import { atenciones, atencionesNutricionPlanes, informes, nivelRiesgo, type AreaAtencion } from './calendario';
 import { corta, type Fecha, partes, sumarDias, sumarMeses } from './fechas';
-import type { Marca, Nino, Responsable } from './modelo';
+import { type Marca, type Nino, planesNutricion, type Responsable } from './modelo';
 
 export type TabId =
   | 'inicio' | 'preliminar' | 'pacto' | 'socio_legal' | 'informes' | 'salud'
@@ -282,15 +282,15 @@ export function evaluarCarpeta(nino: Nino, hoy: Fecha): CarpetaEval {
   // Nutrición
   {
     const c = nuevo('nutricion');
-    const activa = !!nino.nutricion;
+    const planes = planesNutricion(nino);
+    // Plan vigente hoy (el último que ya empezó); sin caso especial el tallaje vale 6 meses.
+    const actual = [...planes].reverse().find((p) => p.desde <= hoy) ?? planes[0];
+    const meses = actual ? actual.tallajeMeses : 6;
     c.doc('nutricion.valoracion_inicial', 'Valoración nutricional inicial');
-    c.vigente('nutricion.tallaje', `Tallaje (peso y talla) · vigencia ${activa ? 3 : 6} meses`, activa ? 3 : 6);
-    if (nino.nutricion) {
-      // Se exigen desde el plan de caso, sin importar cuándo se marcó el caso especial:
-      // al pasar carpetas antiguas a la app aparecen las atenciones que debieron hacerse.
-      for (const a of atencionesNutricion(nino.fechaIngreso, nino.fechaIngreso, hasta)) {
-        c.programada(`ate.nutricion.${a.id}`, a.etiqueta, a.fecha, 'Atenciones de caso especial');
-      }
+    c.vigente('nutricion.tallaje', `Tallaje (peso y talla) · cada ${meses === 1 ? 'mes' : `${meses} meses`}`, meses);
+    // El primer plan se exige desde el plan de caso (carpetas antiguas); los cambios, desde su fecha.
+    for (const a of atencionesNutricionPlanes(nino.fechaIngreso, planes, hasta)) {
+      c.programada(`ate.nutricion.${a.id}`, a.etiqueta, a.fecha, 'Atenciones de caso especial');
     }
     tabs.push(c.tab('nutricion'));
   }

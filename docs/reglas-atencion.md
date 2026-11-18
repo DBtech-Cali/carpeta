@@ -78,15 +78,27 @@ Dos al mes, el día ancla y a mitad de mes (+15 días):
 
 - Se activa **solo cuando el nutricionista incluye al niño o niña** por afectación
   nutricional (exceso o déficit de peso).
-- Se activa marcando **"Caso especial"** en la pestaña Nutrición.
-- Sin importar cuándo se marque, se exige **1 atención por bloque trimestral desde el
-  plan de caso** (plan → 1er seguimiento, 1er → 2º, 2º → 3º, …), en la fecha
-  **hito que abre el bloque + 45 días**. Así, al pasar carpetas antiguas a la app
-  aparecen las atenciones que debieron hacerse.
-- **No usa** las reglas de 15 días ni mensuales de las otras áreas.
+- Se activa marcando **"Caso especial"** en la pestaña Nutrición. El nutricionista
+  define el **plan** del niño:
+  - **Peso y talla (tallaje):** cada 1, 2 o 3 meses (vigencia del tallaje).
+  - **Atenciones:** 2 al mes, 1 al mes o 1 al trimestre.
+- Fechas de las atenciones, siempre con el día ancla del plan de caso:
+  - **2 al mes:** día ancla y +15 días (ej.: 7 y 22).
+  - **1 al mes:** día ancla de cada mes (ej.: el 7), desde el mes siguiente al plan.
+  - **1 al trimestre:** hito que abre cada bloque + 45 días.
+- El **primer plan** se exige **desde el plan de caso**, aunque se marque tarde (carpetas
+  antiguas). Al activarlo queda por defecto en 1 al trimestre y tallaje cada 3 meses
+  hasta que el nutricionista elija.
+- Un **cambio de plan** rige **desde el día del cambio**: lo hecho antes queda registrado,
+  no se piden hacia atrás atenciones que no tocaban con el plan anterior y las que
+  tocaban con el plan anterior se siguen exigiendo. Si el plan se cambia el mismo día en
+  que se eligió, se corrige en lugar de crear otro.
+- Los casos especiales marcados antes de este cambio quedan como 1 al trimestre y
+  tallaje cada 3 meses (igual que funcionaban).
+- **No usa** las reglas de las otras áreas.
 - El nutricionista **puede desactivarla** cuando el niño recupera o estabiliza su peso.
   Al desactivarla **deja de exigirse todo** lo de Nutrición (incluidas atenciones ya
-  vencidas) hasta que se vuelva a activar.
+  vencidas) hasta que se vuelva a activar; el tallaje vuelve a cada 6 meses.
   Mientras no esté activa, no genera atenciones pendientes ni vencidas.
 
 ## 7. Seguimiento de nivel de riesgo

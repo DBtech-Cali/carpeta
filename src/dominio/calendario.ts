@@ -1,5 +1,6 @@
 // Calendario de atención de Semillas Salesianas. Ver docs/reglas-atencion.md.
 import { Fecha, partes, sumarDias, sumarMeses } from './fechas';
+import type { FrecuenciaAtencion, PlanNutricion } from './modelo';
 
 export type AreaAtencion = 'trabajo_social' | 'psicologia' | 'pedagogia';
 
@@ -82,6 +83,52 @@ export function atencionesNutricion(ingreso: Fecha, desde: Fecha, hasta: Fecha):
     out.push({ id: `b${k}`, fecha, etiqueta: `Atención de Nutrición · bloque ${k + 1}` });
   }
   return out;
+}
+
+/** Fechas candidatas de atención de Nutrición según la frecuencia, desde el plan de caso. */
+function candidatasNutricion(ingreso: Fecha, frecuencia: FrecuenciaAtencion, hasta: Fecha): Programada[] {
+  const plan = planDeCaso(ingreso);
+  const ancla = partes(plan).d;
+  const out: Programada[] = [];
+  if (frecuencia === 'trimestral') {
+    for (let k = 0; ; k++) {
+      const fecha = sumarDias(hito(ingreso, k), 45);
+      if (fecha > hasta) break;
+      out.push({ id: `b${k}`, fecha, etiqueta: `Atención trimestral · bloque ${k + 1}` });
+    }
+  } else {
+    for (let n = 0; ; n++) {
+      const base = sumarMeses(plan, n, ancla);
+      if (base > hasta) break;
+      if (frecuencia === 'mensual') {
+        if (n >= 1) out.push({ id: `m${n}`, fecha: base, etiqueta: 'Atención mensual' });
+      } else {
+        if (n >= 1) out.push({ id: `q${n}a`, fecha: base, etiqueta: 'Atención quincenal' });
+        const media = sumarDias(base, 15);
+        if (media <= hasta) out.push({ id: `q${n}b`, fecha: media, etiqueta: 'Atención quincenal' });
+      }
+    }
+  }
+  return out.filter((p) => p.fecha <= hasta);
+}
+
+/**
+ * Atenciones de Nutrición de un caso especial según los planes del nutricionista.
+ * El primer plan rige desde el plan de caso; cada cambio rige desde su fecha, sin pedir
+ * hacia atrás lo que no tocaba con el plan anterior.
+ */
+export function atencionesNutricionPlanes(ingreso: Fecha, planes: PlanNutricion[], hasta: Fecha): Programada[] {
+  const out: Programada[] = [];
+  planes.forEach((p, i) => {
+    const desde = i === 0 ? null : p.desde;
+    const hastaTramo = planes[i + 1]?.desde; // exclusivo
+    for (const c of candidatasNutricion(ingreso, p.atencion, hasta)) {
+      if (desde && c.fecha < desde) continue;
+      if (hastaTramo && c.fecha >= hastaTramo) continue;
+      out.push(c);
+    }
+  });
+  return out.sort((a, b) => a.fecha.localeCompare(b.fecha));
 }
 
 /** Ítems de la pestaña Informes con su fecha de exigencia. */

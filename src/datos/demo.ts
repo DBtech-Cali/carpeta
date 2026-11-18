@@ -33,7 +33,7 @@ function semilla(): Datos {
     const n: Nino = {
       id: `n${i + 1}`, nombres, primerApellido: a1, segundoApellido: a2, caja, activo: true,
       fechaIngreso: sumarDias(h, -dias), responsableRiesgo: i % 2 ? 'trabajo_social' : 'psicologia', marcas: {},
-      nutricion: i === 7 ? { desde: sumarDias(h, -10) } : null,
+      nutricion: i === 7 ? { desde: sumarDias(h, -10), planes: [{ desde: sumarDias(h, -dias), atencion: 'mensual', tallajeMeses: 2, creado: sumarDias(h, -10) }] } : null,
       prestamo: i === 5 ? { por: 'u-ped', desde: `${sumarDias(h, -9)}T09:00:00.000Z` } : i === 2 ? { por: 'u-ts', desde: `${sumarDias(h, -2)}T10:30:00.000Z` } : null,
     };
     // Marca todo lo exigible y deja sin marcar una parte, de forma estable.

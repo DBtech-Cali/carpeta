@@ -136,11 +136,12 @@ Una vez enviado ese correo, la pestaña queda al 100 %.
 |---|---|
 | Valoración nutricional inicial (del nutricionista de la modalidad, distinta a la de Inicio) | Requerido |
 | Tallaje (peso y talla) con fecha completa | Requerido, con vigencia |
-| Casilla "Caso especial" (exceso / déficit de peso) | Activa atenciones |
+| Casilla "Caso especial" (exceso / déficit de peso) | Activa el plan del nutricionista: tallaje cada 1, 2 o 3 meses y atenciones 2 al mes, 1 al mes o 1 al trimestre |
 | Atenciones de Nutrición | Solo si es caso especial (ver `reglas-atencion.md`) |
 
-Vigencia del tallaje desde su fecha: **6 meses** (peso adecuado) o **3 meses**
-(caso especial). Al desmarcar el caso especial vuelve a 6 meses.
+Vigencia del tallaje desde su fecha: **6 meses** sin caso especial; en caso especial,
+la que elija el nutricionista (**1, 2 o 3 meses**). Al desmarcar el caso especial vuelve
+a 6 meses.
 
 Sin comodín.
 

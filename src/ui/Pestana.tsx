@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import type { ItemEval, TabEval } from '../dominio/carpeta';
 import { corta, partes } from '../dominio/fechas';
-import { type Marca, type Nino, RESPONSABLES, type Usuario } from '../dominio/modelo';
+import { FRECUENCIAS_ATENCION, type FrecuenciaAtencion, type Marca, type Nino, type PlanNutricion, planesNutricion, RESPONSABLES, type Usuario } from '../dominio/modelo';
 import { ahoraISO } from '../datos/repositorio';
 import { Barra, Dialogo, Icono, ICONOS, ICONOS_TAB, useApp } from './comunes';
 
@@ -203,23 +203,67 @@ function DialogoDato({ it, bloqueaDesmarcar, onGuardar, onDesmarcar, onCerrar }:
 function CasoEspecial({ nino }: { nino: Nino }) {
   const { repo, hoy } = useApp();
   const activo = !!nino.nutricion;
+  const planes = planesNutricion(nino);
+  const actual = [...planes].reverse().find((p) => p.desde <= hoy) ?? planes[0];
+
+  const activar = () =>
+    repo.actualizarNino(nino.id, {
+      nutricion: activo ? null : { desde: hoy, planes: [{ desde: nino.fechaIngreso, atencion: 'trimestral', tallajeMeses: 3, creado: hoy }] },
+    });
+
+  // Un cambio rige desde hoy; si el plan vigente se eligió hoy mismo, se corrige en lugar de agregar otro.
+  const cambiar = (cambio: Partial<Pick<PlanNutricion, 'atencion' | 'tallajeMeses'>>) => {
+    if (!nino.nutricion || !actual) return;
+    const nuevo = { ...actual, ...cambio };
+    const resto = planes.filter((p) => p !== actual);
+    const siguientes = actual.creado === hoy ? [...resto, nuevo] : [...planes, { ...nuevo, desde: hoy, creado: hoy }];
+    repo.actualizarNino(nino.id, { nutricion: { desde: nino.nutricion.desde, planes: siguientes } });
+  };
+
   return (
-    <section className="tarjeta tarjeta--pad fila-wrap" style={{ gap: 16 }}>
-      <button
-        type="button" role="switch" aria-checked={activo} aria-label="Caso especial de nutrición"
-        className="casilla casilla--excepcion"
-        onClick={() => repo.actualizarNino(nino.id, { nutricion: activo ? null : { desde: hoy } })}
-      >
-        {activo && <Icono d={ICONOS.check} tam={22} color="#fff" grosor={3} />}
-      </button>
-      <span className="item__texto">
-        <span className="item__nombre">Caso especial (exceso o déficit de peso)</span>
-        <span className="item__nota">
-          {activo
-            ? `Marcado el ${corta(nino.nutricion!.desde, hoy)}: una atención por trimestre desde el plan de caso y tallaje cada 3 meses. Al desactivarlo deja de exigirse todo lo de nutrición.`
-            : 'Al activarlo se exige una atención por trimestre desde el plan de caso.'}
+    <section className="tarjeta tarjeta--pad" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+      <div className="fila-wrap" style={{ gap: 16, flexWrap: 'nowrap' }}>
+        <button type="button" role="switch" aria-checked={activo} aria-label="Caso especial de nutrición" className="casilla casilla--excepcion" onClick={activar}>
+          {activo && <Icono d={ICONOS.check} tam={22} color="#fff" grosor={3} />}
+        </button>
+        <span className="item__texto">
+          <span className="item__nombre">Caso especial (exceso o déficit de peso)</span>
+          <span className="item__nota">
+            {activo
+              ? 'El nutricionista define el plan. Al desactivarlo deja de exigirse todo lo de nutrición y el tallaje vuelve a cada 6 meses.'
+              : 'Sin caso especial: tallaje cada 6 meses y sin atenciones.'}
+          </span>
         </span>
-      </span>
+      </div>
+      {activo && actual && (
+        <>
+          <div role="group" aria-label="Peso y talla" style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+            <span className="etiqueta-mono">Peso y talla</span>
+            <div className="fila-wrap" style={{ gap: 8 }}>
+              {([1, 2, 3] as const).map((m) => (
+                <button key={m} type="button" className="chip" aria-pressed={actual.tallajeMeses === m} onClick={() => cambiar({ tallajeMeses: m })}>
+                  {m === 1 ? 'Cada mes' : `Cada ${m} meses`}
+                </button>
+              ))}
+            </div>
+          </div>
+          <div role="group" aria-label="Atenciones" style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+            <span className="etiqueta-mono">Atenciones</span>
+            <div className="fila-wrap" style={{ gap: 8 }}>
+              {(Object.keys(FRECUENCIAS_ATENCION) as FrecuenciaAtencion[]).map((f) => (
+                <button key={f} type="button" className="chip" aria-pressed={actual.atencion === f} onClick={() => cambiar({ atencion: f })}>
+                  {FRECUENCIAS_ATENCION[f]}
+                </button>
+              ))}
+            </div>
+          </div>
+          <span className="item__nota">
+            {planes.length > 1
+              ? `Plan vigente desde el ${corta(actual.desde, hoy)}. Los cambios rigen desde el día en que se hacen; lo anterior queda como estaba.`
+              : 'Este plan rige desde el plan de caso. Si luego lo cambias, el cambio rige desde ese día.'}
+          </span>
+        </>
+      )}
     </section>
   );
 }

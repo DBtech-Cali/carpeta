@@ -99,6 +99,35 @@ describe('Escuela', () => {
   });
 });
 
+describe('Nutrición: plan del nutricionista', () => {
+  const ids = (n: Nino, hoy: string) =>
+    tab(n, hoy, 'nutricion').items.filter((i) => i.id.startsWith('ate.nutricion.')).map((i) => i.fecha);
+  const plan = (desde: string, atencion: 'quincenal' | 'mensual' | 'trimestral', tallajeMeses: 1 | 2 | 3) =>
+    ({ desde, atencion, tallajeMeses, creado: desde });
+
+  it('1 al mes y 2 al mes usan el día ancla desde el plan de caso', () => {
+    const mensual = nino({}, { nutricion: { desde: '2026-10-01', planes: [plan('2026-05-07', 'mensual', 3)] } });
+    expect(ids(mensual, '2026-09-01').slice(0, 3)).toEqual(['2026-07-07', '2026-08-07', '2026-09-07']);
+    const quincenal = nino({}, { nutricion: { desde: '2026-10-01', planes: [plan('2026-05-07', 'quincenal', 1)] } });
+    expect(ids(quincenal, '2026-07-01').slice(0, 4)).toEqual(['2026-06-22', '2026-07-07', '2026-07-22', '2026-08-07']);
+  });
+
+  it('un cambio rige desde su fecha: no pide hacia atrás ni pierde lo anterior', () => {
+    const sube = nino({}, { nutricion: { desde: '2026-06-01', planes: [plan('2026-05-07', 'trimestral', 3), plan('2026-10-01', 'mensual', 1)] } });
+    expect(ids(sube, '2026-10-02').slice(0, 3)).toEqual(['2026-07-22', '2026-10-07', '2026-11-07']);
+    const baja = nino({}, { nutricion: { desde: '2026-06-01', planes: [plan('2026-05-07', 'mensual', 1), plan('2026-09-01', 'trimestral', 3)] } });
+    expect(ids(baja, '2026-09-02')).toEqual(['2026-07-07', '2026-08-07', '2026-10-22']);
+  });
+
+  it('el tallaje vence según el plan vigente; sin caso especial, a los 6 meses', () => {
+    const con = nino({ 'nutricion.tallaje': m({ fecha: '2026-09-01' }) }, { nutricion: { desde: '2026-06-01', planes: [plan('2026-05-07', 'trimestral', 1)] } });
+    const tallaje = (n: Nino, hoy: string) => tab(n, hoy, 'nutricion').items.find((i) => i.id === 'nutricion.tallaje')!.estado;
+    expect(tallaje(con, '2026-10-01')).toBe('ok');
+    expect(tallaje(con, '2026-10-02')).toBe('vencido');
+    expect(tallaje(nino({ 'nutricion.tallaje': m({ fecha: '2026-09-01' }) }), '2027-03-01')).toBe('ok');
+  });
+});
+
 describe('Nivel de riesgo y promedio general', () => {
   it('va en la pestaña de la responsable', () => {
     const n = nino({}, { responsableRiesgo: 'psicologia' });
